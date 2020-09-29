@@ -3,8 +3,8 @@
 const events = require('../events.js');
 const faker = require('faker');
 require('../caps');
-require('../module/driver');
-require('../module/vendor');
+require('../driver/driver');
+require('../vendor/vendor');
 
 // Spies!
 // get to know if something was called or not.

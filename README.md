@@ -82,3 +82,6 @@ So, if they leave & come back, it’s imperative that they can the state of thin
 ## Demo
 
 ![Demo](https://code-401-javascript-guide.s3-us-west-2.amazonaws.com/assets/caps.gif)
+
+
+
