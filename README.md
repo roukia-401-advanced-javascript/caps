@@ -43,8 +43,8 @@ So, if they leave & come back, it’s imperative that they can the state of thin
 - Tests will be runnable locally
 - Tests will auto-execute (CI) in your repo using GitHub actions
 - Tests will use a 3rd party library called supergoose to:
-- “mock” the mongo running database
-- “mock” the running Express server
+  - “mock” the mongo running database
+  - “mock” the running Express server
 - Deployment to Heroku
 
 ## installation 
@@ -55,7 +55,9 @@ So, if they leave & come back, it’s imperative that they can the state of thin
 
 ## start server 
 
-- `node caps.js`
+- `node caps/caps.js`
+- `node vendor/vendor.js`
+- `node driver/driver.js`
 
 ## run the test
 
@@ -82,3 +84,6 @@ So, if they leave & come back, it’s imperative that they can the state of thin
 ## Demo
 
 ![Demo](https://code-401-javascript-guide.s3-us-west-2.amazonaws.com/assets/caps.gif)
+
+
+
