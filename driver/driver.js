@@ -1,39 +1,38 @@
 // Drivers Module
-// Monitor the system for events …
-// On the ‘pickup’ event …
-// Wait 1 second
-// Log “DRIVER: picked up [ORDER_ID]” to the console.
-// Emit an ‘in-transit’ event with the payload you received
-// Wait 3 seconds
-// Log “delivered” to the console
-// Emit a ‘delivered’ event with the same payload
-
 
 'use strict';
-// require event pool
-const events = require('../events');
 
-events.on('pickup', payload => {
-  pickupHandler('pickup', payload);
+require('dotenv').config();
+const net = require('net');
+
+//create a socket conncetion 
+const client = new net.Socket(); //from net package
+//concet it to caps.js localhost port:5000 //ip address with port
+const host = process.env.HOST || 'localhost';
+const port = process.env.PORT || 5001;
+
+client.connect(port, host, () => {
+  console.log('conncting..');
 });
 
-/**
- * function to console driver confermation and send the transit and deliverd events
- * @param {string} event 
- * @param {object} payload 
- */
-function pickupHandler(event, payload) {
+client.on('close', () => {
+  console.log('conncetion is closed');
 
-  setTimeout(() => {
-    console.log(`DRIVER: picked up ${payload.orderID}`);
-    // send the transit event after the driver console
-    events.emit('transit', payload);
-  }, 1000);
+});
 
-  setTimeout(() => {
-    console.log(`DRIVER: delivered up ${payload.orderID}`);
-    //send the deliverd event after the deliverd console
-    events.emit('delivered', payload);
-  }, 3000);
-}
-
+client.on('data', data => {
+  //pares data
+  let jsonData = JSON.parse(data);
+  if (jsonData.event == 'pickup') {
+    setTimeout(() => {
+      console.log(`pickup ${jsonData.payload.orderID}`);
+      let msg = JSON.stringify({ event: 'in transit', payload: jsonData.payload });
+      client.write(msg);
+    }, 1000);
+    setTimeout(() => {
+      console.log(`delivered ${jsonData.payload.orderID}`);
+      let msg = JSON.stringify({ event: 'delivered', payload: jsonData.payload });
+      client.write(msg);
+    }, 3000);
+  }
+});
